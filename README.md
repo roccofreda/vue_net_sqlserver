@@ -1,4 +1,3 @@
-Certamente! Ecco il contenuto integrale pronto per essere copiato e incollato nel tuo file `README.md`. Ho strutturato tutto in formato **Markdown**, che è lo standard per i repository professionali su GitHub o Azure DevOps.
 
 ```markdown
 # 💰 Financial Dashboard: Full-Stack Expense Tracker
@@ -184,7 +183,4 @@ From the `bank-frontend` folder:
 npm run dev
 ```
 
----
-* **DevOps Mindset:** Use of Docker to containerize services, ensuring portability and reproducible environments.
-* **Real-Time Analytics:** Backend-driven data aggregation to reduce frontend computational load and improve UX.
-```
+@Rocco Freda
