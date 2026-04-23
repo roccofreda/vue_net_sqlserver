@@ -1,43 +1,55 @@
-💰 Financial Dashboard: Full-Stack Expense Tracker
-This project is a professional-grade financial tracking application built with a decoupled architecture. It demonstrates a complete Modern Development Stack by bridging a Linux-based data layer with a .NET backend and a reactive Vue.js frontend.
+Ecco la versione definitiva e integrale del tuo file `README.md`. Questa versione include non solo le istruzioni e i comandi, ma anche i **blocchi di codice completi e commentati in inglese** (come richiesto per un profilo professionale), spiegando nel dettaglio il CORS, l'aggregazione dei dati e l'inizializzazione del database.
 
-🏗️ System Architecture
+Copia tutto il contenuto sottostante:
+
+---
+
+# 💰 Financial Dashboard: Full-Stack Expense Tracker
+
+This project is a professional-grade financial tracking application built with a decoupled architecture. It demonstrates a complete **Modern Development Stack** by bridging a Linux-based data layer with a .NET backend and a reactive Vue.js frontend.
+
+## 🏗️ System Architecture
+
 The application is structured into three independent layers to ensure scalability and isolation:
 
-Data Layer (Linux/Docker): SQL Server 2022 running on a native Linux kernel via WSL2.
+1.  **Data Layer (Linux/Docker):** SQL Server 2022 running on a native Linux kernel via WSL2.
+2.  **Backend API (.NET 10):** A RESTful service managing business logic and database persistence.
+3.  **Frontend (Vue.js 3):** A Single Page Application (SPA) providing real-time data visualization.
 
-Backend API (.NET 10): A RESTful service managing business logic and database persistence.
+---
 
-Frontend (Vue.js 3): A Single Page Application (SPA) providing real-time data visualization.
+## 🛠️ Infrastructure & Setup
 
-🛠️ Infrastructure & Setup
-1. WSL2 & Ubuntu Configuration
+### 1. WSL2 & Ubuntu Configuration
 The database is hosted within a Linux subsystem to simulate a real-world production environment:
+* **Environment:** Enabled "Virtual Machine Platform" and installed **Ubuntu** via `wsl --install`.
+* **Docker Integration:** Configured Docker Desktop to use the **WSL2 native engine**, allowing SQL Server to run on a Linux kernel for superior performance and isolation.
 
-Environment: Enabled "Virtual Machine Platform" and installed Ubuntu via wsl --install.
-
-Docker Integration: Configured Docker Desktop to use the WSL2 native engine, allowing SQL Server to run on a Linux kernel for superior performance and isolation.
-
-2. Containerized Database (Docker)
-The SQL Server instance is fully containerized.
-
-Deployment Command:
-
-Bash
+### 2. Containerized Database (Docker)
+The SQL Server instance is fully containerized. 
+* **Deployment Command:**
+```bash
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 1433:1433 --name sqlserver_banca -d mcr.microsoft.com/mssql/server:2022-latest
-🖥️ Backend Implementation (.NET 10)
-The backend is built using a "Lean API" approach. Below is the commented logic of the Program.cs file.
+```
 
-Project Setup
-Bash
+---
+
+## 🖥️ Backend Implementation (.NET 10)
+
+The backend is built using a "Lean API" approach. Below is the commented logic of the `Program.cs` file.
+
+### Project Setup
+```bash
 # Create the Web API project
 dotnet new webapi -n BankApi --no-openapi
 cd BankApi
 
 # Install the SQL Server provider for Entity Framework Core
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-Core Logic (Program.cs)
-C#
+```
+
+### Core Logic (Program.cs)
+```csharp
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -104,11 +116,16 @@ app.MapPost("/paga", async (Transaction tx, BankDbContext db) => {
 });
 
 app.Run();
-🎨 Frontend Implementation (Vue.js 3)
+```
+
+---
+
+## 🎨 Frontend Implementation (Vue.js 3)
+
 The frontend uses Vite and the Composition API for high performance.
 
-Project Setup
-Bash
+### Project Setup
+```bash
 # Scaffold the project using Vite
 npm create vite@latest bank-frontend -- --template vue
 cd bank-frontend
@@ -116,8 +133,10 @@ npm install
 
 # Install visualization dependencies
 npm install chart.js vue-chartjs
-API Integration (App.vue snippet)
-JavaScript
+```
+
+### API Integration (App.vue snippet)
+```javascript
 // --- API SERVICES ---
 
 /**
@@ -144,3 +163,9 @@ async function fetchChartData() {
     console.error("API Error:", error);
   }
 }
+```
+
+---
+
+### 🇮🇹 Nota finale per te:
+Con questo documento hai tutto: i comandi per creare i progetti, il codice spiegato (CORS, DB initialization, Aggregation) e la parte infrastrutturale (WSL2/Docker). È perfetto da caricare su GitHub o da mostrare durante la condivisione dello schermo in un colloquio. 🚀
