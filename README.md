@@ -98,11 +98,3 @@ Bash
 npm run dev
 The UI will be available at http://localhost:5173.
 
-📈 Technical Highlights for Interviews
-Hybrid Infrastructure: Demonstrated ability to bridge Windows-based applications with Linux-based services (WSL2).
-
-CLI Proficiency: Full project scaffolding and dependency management using .NET CLI and npm.
-
-Environment Isolation: Used Docker to prevent "dependency hell" and ensure a portable database environment.
-
-Full-Stack Integration: Managed the entire data lifecycle, from SQL storage to C# processing and JavaScript visualization.
