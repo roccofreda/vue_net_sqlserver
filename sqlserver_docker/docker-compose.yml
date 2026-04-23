@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_banca
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=PasswordMoltoSicura123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # Script per creare le tabelle
