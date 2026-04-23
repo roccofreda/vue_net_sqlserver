@@ -1,9 +1,6 @@
-Ecco la versione definitiva e integrale del tuo file `README.md`. Questa versione include non solo le istruzioni e i comandi, ma anche i **blocchi di codice completi e commentati in inglese** (come richiesto per un profilo professionale), spiegando nel dettaglio il CORS, l'aggregazione dei dati e l'inizializzazione del database.
+Certamente! Ecco il contenuto integrale pronto per essere copiato e incollato nel tuo file `README.md`. Ho strutturato tutto in formato **Markdown**, che è lo standard per i repository professionali su GitHub o Azure DevOps.
 
-Copia tutto il contenuto sottostante:
-
----
-
+```markdown
 # 💰 Financial Dashboard: Full-Stack Expense Tracker
 
 This project is a professional-grade financial tracking application built with a decoupled architecture. It demonstrates a complete **Modern Development Stack** by bridging a Linux-based data layer with a .NET backend and a reactive Vue.js frontend.
@@ -20,7 +17,7 @@ The application is structured into three independent layers to ensure scalabilit
 
 ## 🛠️ Infrastructure & Setup
 
-### 1. WSL2 & Ubuntu Configuration
+### 1. WSL2 & Ubuntu Configuration (WSL2 Architecture)
 The database is hosted within a Linux subsystem to simulate a real-world production environment:
 * **Environment:** Enabled "Virtual Machine Platform" and installed **Ubuntu** via `wsl --install`.
 * **Docker Integration:** Configured Docker Desktop to use the **WSL2 native engine**, allowing SQL Server to run on a Linux kernel for superior performance and isolation.
@@ -29,7 +26,7 @@ The database is hosted within a Linux subsystem to simulate a real-world product
 The SQL Server instance is fully containerized. 
 * **Deployment Command:**
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 1433:1433 --name sqlserver_banca -d mcr.microsoft.com/mssql/server:2022-latest
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 1433:1433 --name sqlserver_banca -d [mcr.microsoft.com/mssql/server:2022-latest](https://mcr.microsoft.com/mssql/server:2022-latest)
 ```
 
 ---
@@ -38,7 +35,7 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 
 
 The backend is built using a "Lean API" approach. Below is the commented logic of the `Program.cs` file.
 
-### Project Setup
+### Project Setup via CLI
 ```bash
 # Create the Web API project
 dotnet new webapi -n BankApi --no-openapi
@@ -66,7 +63,7 @@ builder.Services.AddDbContext<BankDbContext>(opt =>
 // This allows the Vue.js frontend (running on a different port) to communicate with this API
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => {
-        policy.AllowAnyOrigin() // In production, replace with specific frontend URL
+        policy.AllowAnyOrigin() 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -77,7 +74,7 @@ var app = builder.Build();
 // Enable CORS and apply the policy
 app.UseCors();
 
-// 3. AUTOMATED DATABASE INITIALIZATION
+// 3. AUTOMATED DATABASE INITIALIZATION (Code-First approach)
 // On startup, we ensure the SQL Server database and tables are created automatically
 using (var scope = app.Services.CreateScope()) {
     var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
@@ -124,7 +121,7 @@ app.Run();
 
 The frontend uses Vite and the Composition API for high performance.
 
-### Project Setup
+### Project Setup via CLI
 ```bash
 # Scaffold the project using Vite
 npm create vite@latest bank-frontend -- --template vue
@@ -135,7 +132,7 @@ npm install
 npm install chart.js vue-chartjs
 ```
 
-### API Integration (App.vue snippet)
+### API Integration (App.vue Logic)
 ```javascript
 // --- API SERVICES ---
 
@@ -167,5 +164,27 @@ async function fetchChartData() {
 
 ---
 
-### 🇮🇹 Nota finale per te:
-Con questo documento hai tutto: i comandi per creare i progetti, il codice spiegato (CORS, DB initialization, Aggregation) e la parte infrastrutturale (WSL2/Docker). È perfetto da caricare su GitHub o da mostrare durante la condivisione dello schermo in un colloquio. 🚀
+## 🚀 Execution Guide
+
+### Phase 1: Data Layer
+Ensure Docker is running on your Ubuntu WSL2 instance:
+```bash
+docker start sqlserver_banca
+```
+
+### Phase 2: Backend API
+From the `BankApi` folder:
+```bash
+dotnet run
+```
+
+### Phase 3: Frontend UI
+From the `bank-frontend` folder:
+```bash
+npm run dev
+```
+
+---
+* **DevOps Mindset:** Use of Docker to containerize services, ensuring portability and reproducible environments.
+* **Real-Time Analytics:** Backend-driven data aggregation to reduce frontend computational load and improve UX.
+```
