@@ -1,8 +1,7 @@
-Financial Dashboard: Full-Stack Expense Tracker
-
+💰 Financial Dashboard: Full-Stack Expense Tracker
 This project is a professional-grade financial tracking application built with a decoupled architecture. It demonstrates a complete Modern Development Stack by bridging a Linux-based data layer with a .NET backend and a reactive Vue.js frontend.
 
-System Architecture
+🏗️ System Architecture
 The application is structured into three independent layers to ensure scalability and isolation:
 
 Data Layer (Linux/Docker): SQL Server 2022 running on a native Linux kernel via WSL2.
@@ -26,7 +25,7 @@ Deployment Command:
 
 Bash
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 1433:1433 --name sqlserver_banca -d mcr.microsoft.com/mssql/server:2022-latest
-Backend Implementation (.NET 10)
+🖥️ Backend Implementation (.NET 10)
 The backend is built using a "Lean API" approach. Below is the commented logic of the Program.cs file.
 
 Project Setup
@@ -105,7 +104,7 @@ app.MapPost("/paga", async (Transaction tx, BankDbContext db) => {
 });
 
 app.Run();
-Frontend Implementation (Vue.js 3)
+🎨 Frontend Implementation (Vue.js 3)
 The frontend uses Vite and the Composition API for high performance.
 
 Project Setup
@@ -145,4 +144,3 @@ async function fetchChartData() {
     console.error("API Error:", error);
   }
 }
-
