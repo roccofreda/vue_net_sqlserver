@@ -21,88 +21,88 @@ Docker Integration: Configured Docker Desktop to use the WSL2 native engine, all
 2. Containerized Database (Docker)
 The SQL Server instance is fully containerized.
 
-Command used to deploy:
+Deployment Command:
 
 Bash
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=PasswordMoltoSicura123!" -p 1433:1433 --name sqlserver_banca -d mcr.microsoft.com/mssql/server:2022-latest
-3. Backend Implementation (.NET 10 & EF Core)
-The API manages the bridge between the UI and SQL Server using Entity Framework Core.
+3. Backend Development (.NET 10 & EF Core)
+The API manages the bridge between the UI and SQL Server.
 
+Project Creation via CLI:
+
+Bash
+# Create the Web API project without OpenAPI for a lean structure
+dotnet new webapi -n BankApi --no-openapi
+cd BankApi
+
+# Install the SQL Server provider for Entity Framework Core
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 Database Connector & Connection String:
 
 C#
 // Connecting to SQL Server running on Docker/WSL2
-var connectionString = "Server=localhost,1433;Database=BancaDB;User Id=sa;Password=PasswordMoltoSicura123!;TrustServerCertificate=True;";
+var connectionString = "Server=127.0.0.1,1433;Database=BancaDB;User Id=sa;Password=PasswordMoltoSicura123!;TrustServerCertificate=True;";
 
 builder.Services.AddDbContext<BankDbContext>(opt => 
     opt.UseSqlServer(connectionString));
 Automated Schema Generation (Code-First):
 
 C#
-// This ensures the database and tables are created automatically on startup
+// Ensures the database and tables are created automatically on startup
 using (var scope = app.Services.CreateScope()) {
     var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
     db.Database.EnsureCreated(); 
 }
-Business Logic (Transaction Aggregation):
-
-C#
-app.MapPost("/paga", async (Transaction tx, BankDbContext db) => {
-    db.Transactions.Add(tx); // Save the raw transaction
-    
-    // Aggregate spending for the dashboard
-    var today = DateTime.Now.Date;
-    var spending = await db.DailySpendings
-        .FirstOrDefaultAsync(s => s.Date == today && s.Mcc == tx.Mcc);
-
-    if (spending == null) {
-        db.DailySpendings.Add(new DailySpending { Mcc = tx.Mcc, Date = today, TotalAmount = tx.Amount });
-    } else {
-        spending.TotalAmount += tx.Amount;
-    }
-    await db.SaveChangesAsync();
-    return Results.Ok();
-});
-4. Reactive Frontend (Vue 3 & Vite)
+4. Frontend Development (Vue 3 & Vite)
 The UI focuses on speed and real-time feedback using the Composition API.
 
+Project Creation via CLI:
+
+Bash
+# Scaffold the project using Vite
+npm create vite@latest bank-frontend -- --template vue
+cd bank-frontend
+npm install
+
+# Install visualization dependencies
+npm install chart.js vue-chartjs
 Asynchronous Data Fetching:
 
 JavaScript
-// Fetching aggregated data from the .NET API
+// Fetching aggregated data from the .NET API (Listening on Port 5138)
 async function fetchChartData() {
   const response = await fetch('http://localhost:5138/api/spending');
   if (response.ok) {
     const data = await response.json();
-    // Update reactive state
     chartData.value.labels = data.map(item => item.mcc);
     chartData.value.datasets[0].data = data.map(item => item.totalAmount);
   }
 }
-🚀 Installation & Running the Project
+🚀 Execution Guide
 Phase 1: Data Layer
-Ensure Docker is running on your Ubuntu WSL2 instance, then start the container:
+Ensure Docker is running on your Ubuntu WSL2 instance:
 
 Bash
 docker start sqlserver_banca
 Phase 2: Backend API
-Navigate to the API folder: cd BankApi
+From the BankApi folder:
 
-Run: dotnet run
-The API will listen on http://localhost:5138.
+Bash
+dotnet run
+Note: The API automatically initializes the BancaDB schema on SQL Server.
 
 Phase 3: Frontend UI
-Navigate to the frontend folder: cd bank-frontend
+From the bank-frontend folder:
 
-Install dependencies: npm install
-
-Start the dev server: npm run dev
+Bash
+npm run dev
+The UI will be available at http://localhost:5173.
 
 📈 Technical Highlights for Interviews
-Hybrid Environment Management: Seamless integration across Windows (Frontend/Backend) and Linux (Database via WSL2).
+Hybrid Infrastructure: Demonstrated ability to bridge Windows-based applications with Linux-based services (WSL2).
 
-Infrastructure as Code: Repeatable database setup via Docker, eliminating environment-specific bugs.
+CLI Proficiency: Full project scaffolding and dependency management using .NET CLI and npm.
 
-Decoupled Architecture: Clean separation of concerns between UI, Business Logic, and Persistence.
+Environment Isolation: Used Docker to prevent "dependency hell" and ensure a portable database environment.
 
-Advanced EF Core: Practical use of Code-First approach and automated database initialization.
+Full-Stack Integration: Managed the entire data lifecycle, from SQL storage to C# processing and JavaScript visualization.
